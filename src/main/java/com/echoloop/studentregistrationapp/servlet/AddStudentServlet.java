@@ -18,6 +18,11 @@ public class AddStudentServlet extends HttpServlet {
     private StudentDAO studentDAO;
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/add-student.jsp").forward(request, response);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
@@ -43,6 +48,7 @@ public class AddStudentServlet extends HttpServlet {
         Student student = new Student(name.trim(), email.trim(), course.trim());
         studentDAO.save(student);
 
-        response.sendRedirect(request.getContextPath() + "/students");
+        request.setAttribute("success", "Student added successfully");
+        request.getRequestDispatcher("/students").forward(request, response);
     }
 }

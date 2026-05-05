@@ -11,15 +11,18 @@ $pwdFile        = "$glassfishBin\gfpass.txt"
 
 
 Write-Host "Undeploying $appName..."
-asadmin.bat --user $adminUser --passwordfile $pwdFile undeploy $appName
+Set-Location $glassfishBin
+asadmin.bat --user $adminUser --passwordfile $pwdFile undeploy $appName 2>$null
+
+$projectDir = "C:\Users\aubre\StudentRegistrationApp"
 
 Write-Host "Building project with Maven..."
-Set-Location "C:\Users\aubre\IdeaProjects\Jakarta-Projects\Job-Finder"
+Set-Location $projectDir
 mvn.cmd clean package
 
 Write-Host "Deploying $warFile..."
 Set-Location $glassfishBin
-& .\asadmin.bat --user $adminUser --passwordfile $pwdFile deploy "C:\Users\aubre\IdeaProjects\Jakarta-Projects\Job-Finder\$warFile"
+& .\asadmin.bat --user $adminUser --passwordfile $pwdFile deploy "$projectDir\$warFile"
 
-Set-Location "C:\Users\aubre\IdeaProjects\Jakarta-Projects\Job-Finder"
+Set-Location $projectDir
 Write-Host "Deployment complete!"

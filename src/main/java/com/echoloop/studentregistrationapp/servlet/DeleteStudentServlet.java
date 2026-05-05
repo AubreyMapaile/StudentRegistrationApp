@@ -27,7 +27,8 @@ public class DeleteStudentServlet extends HttpServlet {
                 request.setAttribute("error", "Invalid student ID");
             }
         }
-        response.sendRedirect(request.getContextPath() + "/students");
+
+        request.getRequestDispatcher("/students").forward(request, response);
     }
 
     @Override
